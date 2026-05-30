@@ -1,0 +1,29 @@
+---
+description: Enforce Conventional Commits specification for all generated git commit messages
+globs: *
+alwaysApply: true
+---
+
+When generating git commit messages for staged changes, you must strictly follow the Conventional Commits specification:
+
+Format: <type>[optional scope]: <description>
+
+Allowed Types:
+
+- feat: A new feature (include the specific module or feature name as the optional scope, e.g., feat(auth): add login)
+- fix: A bug fix
+- docs: Documentation only changes
+- style: Changes that do not affect the meaning of the code (white-space, formatting, etc)
+- refactor: A code change that neither fixes a bug nor adds a feature
+- perf: A code change that improves performance
+- test: Adding missing tests or correcting existing tests
+- build: Changes that affect the build system or external dependencies
+- ci: Changes to CI configuration files and scripts
+- chore: Other changes that don't modify src or test files
+
+Rules:
+
+1. Always use lowercase for the type prefix.
+2. The description must be in the imperative present tense (e.g., "add style" not "added style").
+3. Do not append a period at the end of the subject line.
+4. Output only the raw commit message itself. Do not wrap it in markdown block quotes.
