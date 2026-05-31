@@ -8,4 +8,4 @@
 6. [x] [App Shell](./tasks/06-app-shell.md) — header, dark mode toggle, page layout
 7. [x] [Movie Grid](./tasks/07-movie-grid.md) — responsive grid + skeleton loading
 8. [x] [Movie Card — Front](./tasks/08-movie-card-front.md) — flip mechanism + poster face
-9. [ ] [Movie Card — Back](./tasks/09-movie-card-back.md) — streaming logos + tooltip + empty state
+9. [x] [Movie Card — Back](./tasks/09-movie-card-back.md) — streaming logos + tooltip + empty state

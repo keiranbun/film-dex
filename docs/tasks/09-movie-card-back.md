@@ -1,5 +1,7 @@
 # Task 08 — Movie Card (Back)
 
+Status: Complete
+
 Fill in the back face of `MovieCard` with the movie's metadata and Australian
 streaming availability.
 

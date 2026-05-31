@@ -2,6 +2,12 @@ import { useState } from 'react'
 import type { Movie } from '@/types/movie'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
 export function MovieCard({ movie }: { movie: Movie }) {
@@ -41,8 +47,36 @@ export function MovieCard({ movie }: { movie: Movie }) {
           </Badge>
         </div>
 
-        {/* BACK — task 09 */}
-        <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg bg-card" />
+        {/* BACK */}
+        <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg bg-card text-card-foreground p-4 flex flex-col gap-3 overflow-hidden">
+          <h3 className="text-lg font-bold line-clamp-2">{movie.title}</h3>
+          <p className="text-sm text-muted-foreground">{movie.year}</p>
+          {movie.streaming_au.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              Not available for streaming in AU
+            </p>
+          ) : (
+            <ScrollArea className="flex-1">
+              <div
+                className="flex flex-wrap gap-2"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {movie.streaming_au.map((service) => (
+                  <Tooltip key={service.name}>
+                    <TooltipTrigger asChild>
+                      <img
+                        src={service.logo}
+                        alt={service.name}
+                        className="w-10 h-10 rounded"
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>{service.name}</TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
+            </ScrollArea>
+          )}
+        </div>
       </div>
     </div>
   )
