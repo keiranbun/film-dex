@@ -1,5 +1,7 @@
 # Task 10 — Search Bar
 
+Status: Complete
+
 Add a search input that filters the grid by movie title in real time.
 
 ---

@@ -1,13 +1,23 @@
+import { useMemo, useState } from 'react'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ModeToggle } from '@/components/mode-toggle'
 import { MovieGrid } from '@/components/MovieGrid'
+import { SearchBar } from '@/components/SearchBar'
 import type { Movie } from '@/types/movie'
 import moviesData from '../data/movies.json'
 
 const movies = moviesData as Movie[]
 
 function App() {
+  const [query, setQuery] = useState('')
+
+  const filteredMovies = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) return movies
+    return movies.filter((m) => m.title.toLowerCase().includes(q))
+  }, [query])
+
   return (
     <ThemeProvider>
       <TooltipProvider>
@@ -18,8 +28,9 @@ function App() {
               <ModeToggle />
             </div>
           </header>
-          <main className="container mx-auto px-4 py-6">
-            <MovieGrid movies={movies} />
+          <main className="container mx-auto px-4 py-6 space-y-4">
+            <SearchBar query={query} onQueryChange={setQuery} />
+            <MovieGrid movies={filteredMovies} query={query} />
           </main>
         </div>
       </TooltipProvider>

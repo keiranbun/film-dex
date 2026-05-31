@@ -47,4 +47,15 @@ describe('MovieGrid', () => {
     expect(container.firstChild).not.toBeNull()
     expect((container.firstChild as HTMLElement).children).toHaveLength(0)
   })
+
+  it('shows the query-aware empty state when movies is empty and query is set', () => {
+    render(<MovieGrid movies={[]} query="batman" />)
+    expect(screen.getByText(/No movies match "batman"/)).toBeInTheDocument()
+  })
+
+  it('shows the generic empty state when movies is empty and no query is provided', () => {
+    render(<MovieGrid movies={[]} />)
+    expect(screen.getByText('No movies to show')).toBeInTheDocument()
+    expect(screen.queryByText(/No movies match/)).not.toBeInTheDocument()
+  })
 })
