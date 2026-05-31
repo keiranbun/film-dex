@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { Toaster } from '@/components/ui/sonner'
 import { ModeToggle } from '@/components/mode-toggle'
 import { MovieGrid } from '@/components/MovieGrid'
 import { SearchBar } from '@/components/SearchBar'
 import { FilterBar, type SortOrder } from '@/components/FilterBar'
+import { WatchedIO } from '@/components/WatchedIO'
 import { useWatched } from '@/hooks/useWatched'
 import type { Movie } from '@/types/movie'
 import moviesData from '../data/movies.json'
@@ -18,7 +20,7 @@ function App() {
     new Set(),
   )
   const [hideWatched, setHideWatched] = useState(false)
-  const { watchedIds, toggle, isWatched } = useWatched()
+  const { watchedIds, toggle, isWatched, setWatched } = useWatched()
 
   const availableServices = useMemo(() => {
     const set = new Set<string>()
@@ -68,8 +70,20 @@ function App() {
         <div className="min-h-screen bg-background text-foreground">
           <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto flex items-center justify-between px-4 py-3">
-              <h1 className="text-2xl font-bold tracking-tight">FilmDex</h1>
-              <ModeToggle />
+              <div className="flex flex-col">
+                <h1 className="text-2xl font-bold tracking-tight">FilmDex</h1>
+                <p className="text-xs text-muted-foreground italic">
+                  Gotta Watch Them All
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <ModeToggle />
+                <WatchedIO
+                  movies={movies}
+                  watchedIds={watchedIds}
+                  onSetWatched={setWatched}
+                />
+              </div>
             </div>
           </header>
           <main className="container mx-auto px-4 py-6 space-y-4">
@@ -91,6 +105,7 @@ function App() {
               onToggleWatched={toggle}
             />
           </main>
+          <Toaster richColors position="bottom-center" />
         </div>
       </TooltipProvider>
     </ThemeProvider>
