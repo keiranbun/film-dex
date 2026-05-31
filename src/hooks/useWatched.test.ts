@@ -48,4 +48,38 @@ describe('useWatched', () => {
     expect(result.current.isWatched(2)).toBe(true)
     expect(result.current.isWatched(99)).toBe(false)
   })
+
+  it('setWatched replaces watchedIds exactly with the provided set', () => {
+    const { result } = renderHook(() => useWatched())
+
+    act(() => result.current.toggle(99))
+    expect(result.current.watchedIds.has(99)).toBe(true)
+
+    act(() => result.current.setWatched(new Set([1, 2, 3])))
+    expect(result.current.watchedIds).toEqual(new Set([1, 2, 3]))
+    expect(result.current.watchedIds.has(99)).toBe(false)
+  })
+
+  it('setWatched persists the new set to localStorage', () => {
+    const { result } = renderHook(() => useWatched())
+
+    act(() => result.current.setWatched(new Set([3, 1, 2])))
+
+    const raw = localStorage.getItem(KEY)
+    expect(raw).not.toBeNull()
+    const parsed = JSON.parse(raw as string) as number[]
+    expect([...parsed].sort()).toEqual([1, 2, 3])
+  })
+
+  it('setWatched(new Set()) clears a pre-seeded set', () => {
+    localStorage.setItem(KEY, JSON.stringify([1, 2, 3]))
+    const { result } = renderHook(() => useWatched())
+    expect(result.current.watchedIds.size).toBe(3)
+
+    act(() => result.current.setWatched(new Set()))
+    expect(result.current.watchedIds.size).toBe(0)
+
+    const raw = localStorage.getItem(KEY)
+    expect(JSON.parse(raw as string)).toEqual([])
+  })
 })

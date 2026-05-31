@@ -1,5 +1,7 @@
 # Task 13 — Watchlist Import / Export
 
+Status: Complete
+
 Let users export their watched/unwatched state to a JSON file and import one
 back. Useful for sharing, backups, or moving between devices.
 

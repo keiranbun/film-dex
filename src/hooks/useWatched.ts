@@ -26,6 +26,7 @@ export function useWatched(): {
   watchedIds: Set<number>
   toggle: (id: number) => void
   isWatched: (id: number) => boolean
+  setWatched: (ids: Set<number>) => void
 } {
   const [watchedIds, setWatchedIds] = useState<Set<number>>(() =>
     readFromStorage(),
@@ -49,5 +50,9 @@ export function useWatched(): {
     [watchedIds],
   )
 
-  return { watchedIds, toggle, isWatched }
+  const setWatched = useCallback((ids: Set<number>) => {
+    setWatchedIds(new Set(ids))
+  }, [])
+
+  return { watchedIds, toggle, isWatched, setWatched }
 }
