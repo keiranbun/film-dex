@@ -9,3 +9,6 @@
 7. [x] [Movie Grid](./tasks/07-movie-grid.md) — responsive grid + skeleton loading
 8. [x] [Movie Card — Front](./tasks/08-movie-card-front.md) — flip mechanism + poster face
 9. [x] [Movie Card — Back](./tasks/09-movie-card-back.md) — streaming logos + tooltip + empty state
+10. [ ] [Search](./tasks/10-search.md) — title search input + empty state
+11. [ ] [Filter & Sort Bar](./tasks/11-filter-bar.md) — sort dropdown + streaming multi-select
+12. [ ] [Watched](./tasks/12-watched.md) — mark watched (localStorage) + dim/tick + hide-watched toggle
