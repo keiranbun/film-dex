@@ -1,5 +1,7 @@
 # Task 02 — Scaffold Project
 
+**Status:** Complete
+
 Set up the base Vite + React + TypeScript project.
 
 ---
