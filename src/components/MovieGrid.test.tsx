@@ -30,7 +30,7 @@ describe('MovieGrid', () => {
     expect(screen.getAllByTestId('movie-card')).toHaveLength(3)
   })
 
-  it('renders cards in rank order even when input is unsorted', () => {
+  it('renders cards in the exact order received (no internal sort)', () => {
     const movies = [
       makeMovie({ id: 30, rank: 3, title: 'Third' }),
       makeMovie({ id: 10, rank: 1, title: 'First' }),
@@ -38,7 +38,7 @@ describe('MovieGrid', () => {
     ]
     render(<MovieGrid movies={movies} />)
     const titles = screen.getAllByTestId('movie-card').map((el) => el.textContent)
-    expect(titles).toEqual(['First', 'Second', 'Third'])
+    expect(titles).toEqual(['Third', 'First', 'Second'])
   })
 
   it('renders nothing (no crash, empty grid) when given an empty array', () => {

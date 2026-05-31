@@ -1,5 +1,7 @@
 # Task 11 — Filter & Sort Bar
 
+Status: Complete
+
 Add a control bar that sorts the grid and filters by streaming service.
 
 ---
@@ -19,7 +21,7 @@ npx shadcn@latest add select popover checkbox label
 Horizontal control bar. Props:
 
 ```ts
-type SortOrder = 'rank' | 'rating-desc' | 'rating-asc'
+type SortOrder = 'rank' | 'rating-asc' | 'title-asc' | 'title-desc'
 
 type FilterBarProps = {
   sortOrder: SortOrder
@@ -34,7 +36,11 @@ type FilterBarProps = {
 Layout: `flex flex-wrap items-center gap-2`
 
 1. **Sort `<Select>`** — left side
-   - Options: `Rank` (value `rank`, default), `Highest rating` (`rating-desc`), `Lowest rating` (`rating-asc`)
+   - Options:
+     - `Rank` (value `rank`, default — highest rating first by rank order)
+     - `Lowest rating` (`rating-asc` — reverse rank order)
+     - `A → Z` (`title-asc` — alphabetical by title)
+     - `Z → A` (`title-desc` — reverse alphabetical by title)
    - Trigger label like `Sort: Rank`
 
 2. **Streaming `<Popover>`** — middle
@@ -65,9 +71,15 @@ Layout: `flex flex-wrap items-center gap-2`
         m.streaming_au.some((s) => selectedServices.has(s.name))
       )
     }
-    if (sortOrder === 'rating-desc') list = [...list].sort((a, b) => b.rating - a.rating)
-    else if (sortOrder === 'rating-asc') list = [...list].sort((a, b) => a.rating - b.rating)
-    else list = [...list].sort((a, b) => a.rank - b.rank)
+    if (sortOrder === 'rating-asc') {
+      list = [...list].sort((a, b) => b.rank - a.rank)
+    } else if (sortOrder === 'title-asc') {
+      list = [...list].sort((a, b) => a.title.localeCompare(b.title))
+    } else if (sortOrder === 'title-desc') {
+      list = [...list].sort((a, b) => b.title.localeCompare(a.title))
+    } else {
+      list = [...list].sort((a, b) => a.rank - b.rank)
+    }
     return list
   }, [filteredMovies, sortOrder, selectedServices])
   ```
@@ -101,7 +113,8 @@ Layout: `flex flex-wrap items-center gap-2`
 
 ## Done when
 
-- Sort dropdown reorders the grid (Rank / Highest / Lowest)
+- Sort dropdown reorders the grid (Rank / Lowest rating / A→Z / Z→A)
+- Lowest rating shows the list in reverse rank order
 - Selecting one or more streaming services filters the grid (OR logic)
 - Trigger label reflects selection count
 - Clear resets sort + service filters
