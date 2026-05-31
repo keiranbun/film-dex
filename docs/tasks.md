@@ -12,3 +12,4 @@
 10. [x] [Search](./tasks/10-search.md) — title search input + empty state
 11. [x] [Filter & Sort Bar](./tasks/11-filter-bar.md) — sort dropdown + streaming multi-select
 12. [x] [Watched](./tasks/12-watched.md) — mark watched (localStorage) + dim/tick + hide-watched toggle
+13. [ ] [Watchlist Import/Export](./tasks/13-watchlist-io.md) — JSON export + import via header dropdown + toast feedback
