@@ -1,5 +1,7 @@
 # Task 04 — Testing Setup
 
+**Status:** Complete
+
 Install and configure Vitest + React Testing Library for frontend unit tests.
 
 ---
