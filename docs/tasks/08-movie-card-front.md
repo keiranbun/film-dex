@@ -1,5 +1,7 @@
 # Task 07 — Movie Card (Front)
 
+Status: Complete
+
 Build the `MovieCard` component with its flip mechanism and front face. The
 back face is empty for now — it gets filled in task 08.
 
