@@ -1,5 +1,7 @@
 # FilmDex
 
+[Website Link](https://film-dex-rho.vercel.app/)
+
 Top 100 movies on TMDB, with Australian streaming availability for each.
 Flip a card to see where to watch. Mark what you've seen, filter by service,
 export your watchlist as JSON.
@@ -43,7 +45,7 @@ Two custom subagents were written for this project:
 
 ## Mistakes
 
-- At one point the AI randomly started committing after each feature without my input — not the biggest mistake, but I made sure it would always prompt me before committing
+- At one point the AI randomly started committing after each feature without my input, to fix this I asked the LLM to always ask for my permission before committing the files
 
 ## Docs
 
