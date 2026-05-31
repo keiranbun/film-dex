@@ -1,4 +1,6 @@
-# Task 04 — Types
+# Task 05 — Types
+
+**Status:** Complete
 
 Define the shared TypeScript types that match the shape of `data/movies.json`.
 These types are imported by every component that touches movie data.
