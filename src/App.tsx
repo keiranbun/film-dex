@@ -1,6 +1,11 @@
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ModeToggle } from '@/components/mode-toggle'
+import { MovieGrid } from '@/components/MovieGrid'
+import type { Movie } from '@/types/movie'
+import moviesData from '../data/movies.json'
+
+const movies = moviesData as Movie[]
 
 function App() {
   return (
@@ -14,7 +19,7 @@ function App() {
             </div>
           </header>
           <main className="container mx-auto px-4 py-6">
-            {/* movie grid goes here in task 07 */}
+            <MovieGrid movies={movies} />
           </main>
         </div>
       </TooltipProvider>

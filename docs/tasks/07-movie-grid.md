@@ -1,4 +1,6 @@
-# Task 06 — Movie Grid
+# Task 07 — Movie Grid
+
+**Status:** Complete
 
 Render all 100 movies as a responsive grid inside the app shell, with skeleton
 placeholders for the poster images while they load.
