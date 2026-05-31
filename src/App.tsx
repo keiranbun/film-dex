@@ -5,6 +5,7 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { MovieGrid } from '@/components/MovieGrid'
 import { SearchBar } from '@/components/SearchBar'
 import { FilterBar, type SortOrder } from '@/components/FilterBar'
+import { useWatched } from '@/hooks/useWatched'
 import type { Movie } from '@/types/movie'
 import moviesData from '../data/movies.json'
 
@@ -16,6 +17,8 @@ function App() {
   const [selectedServices, setSelectedServices] = useState<Set<string>>(
     new Set(),
   )
+  const [hideWatched, setHideWatched] = useState(false)
+  const { watchedIds, toggle, isWatched } = useWatched()
 
   const availableServices = useMemo(() => {
     const set = new Set<string>()
@@ -38,6 +41,9 @@ function App() {
         m.streaming_au.some((s) => selectedServices.has(s.name)),
       )
     }
+    if (hideWatched) {
+      list = list.filter((m) => !watchedIds.has(m.id))
+    }
     if (sortOrder === 'rating-asc') {
       list = [...list].sort((a, b) => b.rank - a.rank)
     } else if (sortOrder === 'title-asc') {
@@ -48,11 +54,12 @@ function App() {
       list = [...list].sort((a, b) => a.rank - b.rank)
     }
     return list
-  }, [filteredMovies, sortOrder, selectedServices])
+  }, [filteredMovies, sortOrder, selectedServices, hideWatched, watchedIds])
 
   const handleClear = () => {
     setSortOrder('rank')
     setSelectedServices(new Set())
+    setHideWatched(false)
   }
 
   return (
@@ -73,9 +80,16 @@ function App() {
               availableServices={availableServices}
               selectedServices={selectedServices}
               onSelectedServicesChange={setSelectedServices}
+              hideWatched={hideWatched}
+              onHideWatchedChange={setHideWatched}
               onClear={handleClear}
             />
-            <MovieGrid movies={visibleMovies} query={query} />
+            <MovieGrid
+              movies={visibleMovies}
+              query={query}
+              isWatched={isWatched}
+              onToggleWatched={toggle}
+            />
           </main>
         </div>
       </TooltipProvider>

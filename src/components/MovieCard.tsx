@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CheckCircle2 } from 'lucide-react'
 import type { Movie } from '@/types/movie'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -10,7 +11,17 @@ import {
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
-export function MovieCard({ movie }: { movie: Movie }) {
+export type MovieCardProps = {
+  movie: Movie
+  isWatched?: boolean
+  onToggleWatched?: () => void
+}
+
+export function MovieCard({
+  movie,
+  isWatched = false,
+  onToggleWatched,
+}: MovieCardProps) {
   const [isFlipped, setIsFlipped] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
 
@@ -45,6 +56,33 @@ export function MovieCard({ movie }: { movie: Movie }) {
           <Badge variant="secondary" className="absolute top-2 right-2">
             {movie.rating.toFixed(1)}
           </Badge>
+
+          {isWatched && (
+            <div
+              data-testid="watched-overlay"
+              className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center pointer-events-none"
+            >
+              <CheckCircle2 className="w-16 h-16 text-green-500" />
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              onToggleWatched?.()
+            }}
+            aria-label={isWatched ? 'Mark as unwatched' : 'Mark as watched'}
+            className="absolute bottom-2 right-2 rounded-full bg-background/80 p-1.5 hover:bg-background"
+          >
+            <CheckCircle2
+              data-testid="watched-toggle-icon"
+              className={cn(
+                'w-6 h-6',
+                isWatched ? 'text-green-500' : 'text-muted-foreground',
+              )}
+            />
+          </button>
         </div>
 
         {/* BACK */}

@@ -18,6 +18,8 @@ function setup(overrides: Partial<FilterBarProps> = {}) {
     availableServices: ['Netflix', 'Stan', 'Disney+'],
     selectedServices: new Set<string>(),
     onSelectedServicesChange: vi.fn(),
+    hideWatched: false,
+    onHideWatchedChange: vi.fn(),
     onClear: vi.fn(),
     ...overrides,
   }
@@ -115,5 +117,22 @@ describe('FilterBar', () => {
     const { user, props } = setup({ sortOrder: 'rating-asc' })
     await user.click(screen.getByRole('button', { name: 'Clear' }))
     expect(props.onClear).toHaveBeenCalledTimes(1)
+  })
+
+  it('renders the Hide watched switch', () => {
+    setup()
+    expect(screen.getByLabelText('Hide watched')).toBeInTheDocument()
+  })
+
+  it('fires onHideWatchedChange(true) when the switch is clicked from off', async () => {
+    const { user, props } = setup()
+    await user.click(screen.getByLabelText('Hide watched'))
+    expect(props.onHideWatchedChange).toHaveBeenCalledTimes(1)
+    expect(props.onHideWatchedChange).toHaveBeenCalledWith(true)
+  })
+
+  it('enables Clear when hideWatched is true (with default sort + no services)', () => {
+    setup({ hideWatched: true })
+    expect(screen.getByRole('button', { name: 'Clear' })).toBeEnabled()
   })
 })

@@ -1,5 +1,7 @@
 # Task 12 — Watched
 
+Status: Complete
+
 Let users mark movies as watched. State persists in `localStorage`. Watched
 cards are dimmed with a green tick. A "Hide watched" switch in the FilterBar
 removes them from the grid entirely.

@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/popover'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 
 export type SortOrder = 'rank' | 'rating-asc' | 'title-asc' | 'title-desc'
 
@@ -22,6 +23,8 @@ export type FilterBarProps = {
   availableServices: string[]
   selectedServices: Set<string>
   onSelectedServicesChange: (s: Set<string>) => void
+  hideWatched: boolean
+  onHideWatchedChange: (v: boolean) => void
   onClear: () => void
 }
 
@@ -31,9 +34,12 @@ export function FilterBar({
   availableServices,
   selectedServices,
   onSelectedServicesChange,
+  hideWatched,
+  onHideWatchedChange,
   onClear,
 }: FilterBarProps) {
-  const isDefault = sortOrder === 'rank' && selectedServices.size === 0
+  const isDefault =
+    sortOrder === 'rank' && selectedServices.size === 0 && !hideWatched
   const servicesLabel =
     selectedServices.size > 0
       ? `Services (${selectedServices.size})`
@@ -98,11 +104,21 @@ export function FilterBar({
         </PopoverContent>
       </Popover>
 
+      <div className="flex items-center gap-2 ml-auto">
+        <Switch
+          id="hide-watched"
+          checked={hideWatched}
+          onCheckedChange={onHideWatchedChange}
+        />
+        <Label htmlFor="hide-watched" className="cursor-pointer">
+          Hide watched
+        </Label>
+      </div>
+
       <Button
         variant="ghost"
         onClick={onClear}
         disabled={isDefault}
-        className="ml-auto"
       >
         Clear
       </Button>

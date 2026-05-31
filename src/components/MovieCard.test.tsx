@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import type { ReactElement } from 'react'
 import userEvent from '@testing-library/user-event'
@@ -146,5 +146,67 @@ describe('MovieCard (back face)', () => {
     // Click the title on the back face (outside the logos container)
     await user.click(screen.getByText(String(movie.year)))
     expect(inner).not.toHaveClass('rotate-y-180')
+  })
+})
+
+describe('MovieCard (watched)', () => {
+  it('renders the toggle with aria-label "Mark as watched" when isWatched is false', () => {
+    renderWithProviders(
+      <MovieCard movie={movie} isWatched={false} onToggleWatched={vi.fn()} />,
+    )
+    expect(
+      screen.getByRole('button', { name: 'Mark as watched' }),
+    ).toBeInTheDocument()
+  })
+
+  it('renders the toggle with aria-label "Mark as unwatched" when isWatched is true', () => {
+    renderWithProviders(
+      <MovieCard movie={movie} isWatched onToggleWatched={vi.fn()} />,
+    )
+    expect(
+      screen.getByRole('button', { name: 'Mark as unwatched' }),
+    ).toBeInTheDocument()
+  })
+
+  it('clicking the toggle button calls onToggleWatched exactly once', async () => {
+    const user = userEvent.setup()
+    const onToggle = vi.fn()
+    renderWithProviders(
+      <MovieCard movie={movie} isWatched={false} onToggleWatched={onToggle} />,
+    )
+    await user.click(screen.getByRole('button', { name: 'Mark as watched' }))
+    expect(onToggle).toHaveBeenCalledTimes(1)
+  })
+
+  it('clicking the toggle button does NOT flip the card', async () => {
+    const user = userEvent.setup()
+    renderWithProviders(
+      <MovieCard movie={movie} isWatched={false} onToggleWatched={vi.fn()} />,
+    )
+    const inner = screen.getByTestId('movie-card-inner')
+    expect(inner).not.toHaveClass('rotate-y-180')
+    await user.click(screen.getByRole('button', { name: 'Mark as watched' }))
+    expect(inner).not.toHaveClass('rotate-y-180')
+  })
+
+  it('renders the watched overlay when isWatched is true', () => {
+    renderWithProviders(
+      <MovieCard movie={movie} isWatched onToggleWatched={vi.fn()} />,
+    )
+    expect(screen.getByTestId('watched-overlay')).toBeInTheDocument()
+  })
+
+  it('does not render the watched overlay when isWatched is false', () => {
+    renderWithProviders(
+      <MovieCard movie={movie} isWatched={false} onToggleWatched={vi.fn()} />,
+    )
+    expect(screen.queryByTestId('watched-overlay')).toBeNull()
+  })
+
+  it('toggle icon has text-green-500 class when isWatched is true', () => {
+    renderWithProviders(
+      <MovieCard movie={movie} isWatched onToggleWatched={vi.fn()} />,
+    )
+    expect(screen.getByTestId('watched-toggle-icon')).toHaveClass('text-green-500')
   })
 })
