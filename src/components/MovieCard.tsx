@@ -50,7 +50,7 @@ export function MovieCard({ movie }: { movie: Movie }) {
         {/* BACK */}
         <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg bg-card text-card-foreground p-4 flex flex-col gap-3 overflow-hidden">
           <h3 className="text-lg font-bold line-clamp-2">{movie.title}</h3>
-          <p className="text-sm text-muted-foreground">{movie.year}</p>
+          <p className="text-base text-muted-foreground">{movie.year}</p>
           {movie.streaming_au.length === 0 ? (
             <p className="text-sm text-muted-foreground">
               Not available for streaming in AU
@@ -67,7 +67,7 @@ export function MovieCard({ movie }: { movie: Movie }) {
                       <img
                         src={service.logo}
                         alt={service.name}
-                        className="w-10 h-10 rounded"
+                        className="w-14 h-14 rounded"
                       />
                     </TooltipTrigger>
                     <TooltipContent>{service.name}</TooltipContent>
